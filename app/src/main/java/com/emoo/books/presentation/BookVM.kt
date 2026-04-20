@@ -13,8 +13,7 @@ sealed class BookType(val backgroundColor: Color, val foregroundColor: Color)
 data object Fiction : BookType(Color.Red, Color.LightGray)
 data object NonFiction : BookType(Color.Blue, Color.White)
 
-val books: List<BookVM> = listOf(
-    // Shuffled mix of Fiction and Non-Fiction books
+val books = listOf(
     BookVM("Sapiens", "Yuval Noah Harari", true, NonFiction),
     BookVM("The Great Gatsby", "F. Scott Fitzgerald", false, Fiction),
     BookVM("Atomic Habits", "James Clear", true, NonFiction),
@@ -27,7 +26,6 @@ val books: List<BookVM> = listOf(
     BookVM("Pride and Prejudice", "Jane Austen", false, Fiction),
     BookVM("The Power of Habit", "Charles Duhigg", false, NonFiction),
     BookVM("The Catcher in the Rye", "J.D. Salinger", false, Fiction),
-    BookVM("The Subtle Art of Not Giving a F*ck", "Mark Manson", true, NonFiction),
     BookVM("Moby-Dick", "Herman Melville", false, Fiction),
     BookVM("The Diary of a Young Girl", "Anne Frank", true, NonFiction),
     BookVM("War and Peace", "Leo Tolstoy", false, Fiction),
