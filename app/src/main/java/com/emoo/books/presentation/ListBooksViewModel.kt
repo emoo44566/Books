@@ -1,0 +1,28 @@
+package com.emoo.books.presentation
+
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.ViewModel
+import com.emoo.books.presentation.components.SortByAuthor
+import com.emoo.books.presentation.components.SortOrder
+import com.emoo.books.utils.getBooks
+
+class ListBooksViewModel : ViewModel() {
+
+    private val _books: MutableState<List<BookVM>> = mutableStateOf(emptyList())
+    var books: State<List<BookVM>> = _books
+
+    private val _sortOrder: MutableState<SortOrder> = mutableStateOf(SortByAuthor)
+    var sortOrder: State<SortOrder> = _sortOrder
+
+    init {
+        println("init ListBooksViewModel")
+        _books.value = loadBooks(sortOrder.value)
+    }
+
+    private fun loadBooks(sortOrder: SortOrder): List<BookVM> {
+        return getBooks(sortOrder)
+    }
+
+}
