@@ -14,6 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.emoo.books.presentation.components.BookCard
+import com.emoo.books.presentation.components.BookEvent
 import com.emoo.books.presentation.components.SortByAuthor
 import com.emoo.books.presentation.components.SortOrder
 
@@ -37,7 +38,9 @@ fun ListBooksScreen(booksViewModel: ListBooksViewModel, innerPadding: PaddingVal
                 .padding(8.dp)
         ) {
             items(booksViewModel.books.value) { book ->
-                BookCard(book) { }
+                BookCard(book, onDeleteClick = {
+                    booksViewModel.onEvent(BookEvent.Delete(book))
+                })
             }
         }
     }

@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.emoo.books.presentation.BookVM
 
 @Composable
 fun SortOptions(
@@ -55,5 +56,6 @@ data object SortByRead : SortOrder()
 data object SortByFictional : SortOrder()
 
 sealed class BookEvent {
-    data class Order(val order: SortOrder)
+    data class Order(val order: SortOrder) : BookEvent()
+    data class Delete(val book: BookVM) : BookEvent()
 }

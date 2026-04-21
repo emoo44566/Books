@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.emoo.books.presentation.components.BookEvent
 import com.emoo.books.presentation.components.SortByAuthor
 import com.emoo.books.presentation.components.SortOrder
 import com.emoo.books.utils.getBooks
@@ -23,6 +24,17 @@ class ListBooksViewModel : ViewModel() {
 
     private fun loadBooks(sortOrder: SortOrder): List<BookVM> {
         return getBooks(sortOrder)
+    }
+
+    fun onEvent(event: BookEvent) {
+        when (event) {
+            is BookEvent.Delete -> deleteBook(event.book)
+            is BookEvent.Order -> TODO()
+        }
+    }
+
+    private fun deleteBook(book: BookVM) {
+        _books.value = _books.value.filter { it != book }
     }
 
 }
