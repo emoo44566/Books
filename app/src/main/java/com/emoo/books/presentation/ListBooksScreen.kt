@@ -21,7 +21,7 @@ import com.emoo.books.presentation.components.SortOptions
 import com.emoo.books.presentation.components.SortOrder
 
 @Composable
-fun ListBooksScreen(innerPadding: PaddingValues) {
+fun ListBooksScreen(books: List<BookVM>, innerPadding: PaddingValues) {
     var localBooks by remember { mutableStateOf(sortBooks(books, BookEvent.Order(SortByAuthor))) }
     Column(
         Modifier
