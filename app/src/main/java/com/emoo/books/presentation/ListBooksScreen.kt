@@ -1,6 +1,6 @@
 package com.emoo.books.presentation
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,26 +13,40 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.emoo.books.presentation.components.BookCard
+import com.emoo.books.presentation.components.BookEvent
+import com.emoo.books.presentation.components.SortByAuthor
+import com.emoo.books.presentation.components.SortOptions
+import com.emoo.books.presentation.components.SortOrder
 
 @Composable
 fun ListBooksScreen(innerPadding: PaddingValues) {
-    var localBooks by remember { mutableStateOf(books) }
-    LazyColumn(
+    var localBooks by remember { mutableStateOf(sortBooks(books, BookEvent.Order(SortByAuthor))) }
+    Column(
         Modifier
             .padding(innerPadding)
-            .border(.2.dp, color = Color.Blue)
             .fillMaxSize()
-            .padding(8.dp)
     ) {
-        localBooks.forEach { book ->
-            item {
-                BookCard(book) {
-                    localBooks = localBooks.filter { it != book }
+        var sortOrder: SortOrder by remember { mutableStateOf(SortByAuthor) }
+
+        SortOptions(sortOrder) { order ->
+            sortOrder = order
+            localBooks = sortBooks(localBooks, BookEvent.Order(order))
+        }
+
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        ) {
+            localBooks.forEach { book ->
+                item {
+                    BookCard(book) {
+                        localBooks = localBooks.filter { it != book }
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
-                Spacer(modifier = Modifier.height(8.dp))
             }
         }
     }

@@ -1,6 +1,11 @@
 package com.emoo.books.presentation
 
 import androidx.compose.ui.graphics.Color
+import com.emoo.books.presentation.components.BookEvent
+import com.emoo.books.presentation.components.SortByAuthor
+import com.emoo.books.presentation.components.SortByFictional
+import com.emoo.books.presentation.components.SortByRead
+import com.emoo.books.presentation.components.SortByTitle
 
 data class BookVM(
     val title: String = "",
@@ -39,3 +44,12 @@ val books = listOf(
     BookVM("The Art of War", "Sun Tzu", true, NonFiction),
     BookVM("The 7 Habits of Highly Effective People", "Stephen R. Covey", false, NonFiction)
 )
+
+fun sortBooks(books: List<BookVM>, event: BookEvent.Order): List<BookVM> {
+    return when (event.order) {
+        is SortByAuthor -> books.sortedBy { it.author }
+        is SortByTitle -> books.sortedBy { it.title }
+        is SortByRead -> books.sortedBy { it.read }
+        is SortByFictional -> books.sortedBy { it.bookType == Fiction }
+    }
+}
