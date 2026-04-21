@@ -7,16 +7,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.emoo.books.presentation.components.BookCard
 import com.emoo.books.presentation.components.BookEvent
-import com.emoo.books.presentation.components.SortByAuthor
-import com.emoo.books.presentation.components.SortOrder
+import com.emoo.books.presentation.components.SortOptions
 
 @Composable
 fun ListBooksScreen(booksViewModel: ListBooksViewModel, innerPadding: PaddingValues) {
@@ -25,12 +20,10 @@ fun ListBooksScreen(booksViewModel: ListBooksViewModel, innerPadding: PaddingVal
             .padding(innerPadding)
             .fillMaxSize()
     ) {
-//        var sortOrder: SortOrder by remember { mutableStateOf(SortByAuthor) }
-//
-//        SortOptions(sortOrder) { order ->
-//            sortOrder = order
-//            localBooks = sortBooks(localBooks, BookEvent.Order(order))
-//        }
+
+        SortOptions(booksViewModel.sortOrder.value) { order ->
+            booksViewModel.onEvent(BookEvent.Order(order))
+        }
 
         LazyColumn(
             Modifier
