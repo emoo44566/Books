@@ -9,7 +9,7 @@ import com.emoo.books.presentation.components.SortByAuthor
 import com.emoo.books.presentation.components.SortOrder
 import com.emoo.books.utils.getBooks
 
-class ListBooksViewModel : ViewModel() {
+class BooksListViewModel : ViewModel() {
 
     private val _books: MutableState<List<BookVM>> = mutableStateOf(emptyList())
     var books: State<List<BookVM>> = _books
@@ -18,7 +18,6 @@ class ListBooksViewModel : ViewModel() {
     var sortOrder: State<SortOrder> = _sortOrder
 
     init {
-        println("init ListBooksViewModel")
         _books.value = loadBooks(sortOrder.value)
     }
 
