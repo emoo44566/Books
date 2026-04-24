@@ -1,4 +1,4 @@
-package com.emoo.books.presentation
+package com.emoo.books.presentation.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +24,7 @@ fun BooksListScreen(navController: NavController, booksViewModel: BooksListViewM
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navController.navigate(Screen.BookAddEditScreen)
+                navController.navigate(Screen.BookAddEditScreen.route)
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -33,9 +33,11 @@ fun BooksListScreen(navController: NavController, booksViewModel: BooksListViewM
             }
         }
     ) { contentPadding ->
-        Column(Modifier
-            .fillMaxSize()
-            .padding(contentPadding)) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(contentPadding)
+        ) {
 
             SortOptions(booksViewModel.sortOrder.value) { order ->
                 booksViewModel.onEvent(BookEvent.Order(order))
