@@ -30,11 +30,12 @@ import androidx.compose.ui.unit.sp
 import com.emoo.books.presentation.BookVM
 
 @Composable
-fun BookCard(book: BookVM, onDeleteClick: (BookVM) -> Unit) {
+fun BookCard(book: BookVM, onDeleteClick: (BookVM) -> Unit, modifier: Modifier) {
     Row(
         modifier = Modifier
             .fillMaxSize()
-            .padding(12.dp),
+            .padding(12.dp)
+            .then(modifier),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(

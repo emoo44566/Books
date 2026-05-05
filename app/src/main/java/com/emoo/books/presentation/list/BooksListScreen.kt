@@ -1,5 +1,6 @@
 package com.emoo.books.presentation.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -49,9 +50,12 @@ fun BooksListScreen(navController: NavController, booksViewModel: BooksListViewM
                     .padding(8.dp)
             ) {
                 items(booksViewModel.books.value) { book ->
-                    BookCard(book, onDeleteClick = {
-                        booksViewModel.onEvent(BookEvent.Delete(book))
-                    })
+                    BookCard(
+                        book,
+                        onDeleteClick = {
+                            booksViewModel.onEvent(BookEvent.Delete(book))
+                        },
+                        modifier = Modifier.clickable { navController.navigate(Screen.BookAddEditScreen.route + "?bookId=${book.id}") })
                 }
             }
         }
