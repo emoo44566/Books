@@ -9,17 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.emoo.books.presentation.addedit.BookAddEditScreen
 import com.emoo.books.presentation.addedit.BookAddEditViewModel
 import com.emoo.books.presentation.list.BooksListScreen
 import com.emoo.books.presentation.list.BooksListViewModel
 import com.emoo.books.ui.theme.BooksTheme
-import com.emoo.books.utils.Screen
+import com.emoo.books.utils.BookAddEditScreen
+import com.emoo.books.utils.BooksListScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,23 +31,17 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.BooksListScreen.route,
+                        startDestination = BooksListScreen,
                         modifier = Modifier.padding(innerPadding)
                     ) {
-                        composable(Screen.BooksListScreen.route) {
+                        composable<BooksListScreen> {
                             val books = viewModel<BooksListViewModel>()
                             BooksListScreen(navController, books)
                         }
-                        composable(
-                            Screen.BookAddEditScreen.route + "?bookId={bookId}",
-                            arguments = listOf(navArgument(name = "bookId") {
-                                type = NavType.IntType
-                                defaultValue = -1
-                            })
-                        ) { navBackStackEntry ->
-                            val bookId = navBackStackEntry.arguments?.getInt("bookId") ?: -1
+                        composable<BookAddEditScreen> { navBackStackEntry ->
+                            val args = navBackStackEntry.toRoute<BookAddEditScreen>()
                             val book = viewModel<BookAddEditViewModel>() {
-                                BookAddEditViewModel(bookId)
+                                BookAddEditViewModel(args.bookId)
                             }
                             BookAddEditScreen(navController, book)
                         }

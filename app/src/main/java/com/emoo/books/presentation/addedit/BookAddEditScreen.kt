@@ -1,6 +1,5 @@
 package com.emoo.books.presentation.addedit
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,13 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.emoo.books.presentation.Fiction
 import com.emoo.books.presentation.NonFiction
 import com.emoo.books.presentation.components.HorizontalTextRadioButton
-import com.emoo.books.utils.Screen
+import com.emoo.books.utils.BooksListScreen
 
 @Composable
 fun BookAddEditScreen(navController: NavController, viewModel: BookAddEditViewModel) {
@@ -34,7 +32,7 @@ fun BookAddEditScreen(navController: NavController, viewModel: BookAddEditViewMo
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 viewModel.onEvent(BookAddEditEvent.SaveBook)
-                navController.navigate(Screen.BooksListScreen.route)
+                navController.navigate(BooksListScreen)
             }) {
                 Icon(
                     imageVector = Icons.Default.Check,

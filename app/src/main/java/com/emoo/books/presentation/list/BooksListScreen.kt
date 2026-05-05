@@ -18,14 +18,14 @@ import androidx.navigation.NavController
 import com.emoo.books.presentation.components.BookCard
 import com.emoo.books.presentation.components.BookEvent
 import com.emoo.books.presentation.components.SortOptions
-import com.emoo.books.utils.Screen
+import com.emoo.books.utils.BookAddEditScreen
 
 @Composable
 fun BooksListScreen(navController: NavController, booksViewModel: BooksListViewModel) {
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                navController.navigate(Screen.BookAddEditScreen.route)
+                navController.navigate(BookAddEditScreen(-1))
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -55,7 +55,10 @@ fun BooksListScreen(navController: NavController, booksViewModel: BooksListViewM
                         onDeleteClick = {
                             booksViewModel.onEvent(BookEvent.Delete(book))
                         },
-                        modifier = Modifier.clickable { navController.navigate(Screen.BookAddEditScreen.route + "?bookId=${book.id}") })
+                        modifier = Modifier.clickable {
+                            navController.navigate(BookAddEditScreen(book.id))
+                        }
+                    )
                 }
             }
         }
