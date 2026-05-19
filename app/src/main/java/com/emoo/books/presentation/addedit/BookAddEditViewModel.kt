@@ -5,9 +5,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.emoo.books.presentation.BookVM
-import com.emoo.books.presentation.components.SortByAuthor
 import com.emoo.books.utils.addOrUpdateBook
-import com.emoo.books.utils.getBooks
+import com.emoo.books.utils.getBook
 
 class BookAddEditViewModel(bookId: Int = -1) : ViewModel() {
 
@@ -19,7 +18,7 @@ class BookAddEditViewModel(bookId: Int = -1) : ViewModel() {
     }
 
     private fun findBook(bookId: Int) {
-        _book.value = getBooks(SortByAuthor).find { it.id == bookId } ?: BookVM()
+        _book.value = getBook(bookId) ?: BookVM()
     }
 
     fun onEvent(event: BookAddEditEvent) {

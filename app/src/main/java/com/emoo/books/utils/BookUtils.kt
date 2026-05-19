@@ -8,6 +8,7 @@ import com.emoo.books.presentation.components.SortByFictional
 import com.emoo.books.presentation.components.SortByRead
 import com.emoo.books.presentation.components.SortByTitle
 import com.emoo.books.presentation.components.SortOrder
+import kotlinx.coroutines.flow.flow
 
 val books = mutableListOf(
     BookVM(title = "Sapiens", author = "Yuval Noah Harari", read = true, bookType = NonFiction),
@@ -91,13 +92,19 @@ val books = mutableListOf(
     )
 )
 
-fun getBooks(sortOrder: SortOrder): List<BookVM> {
-    return when (sortOrder) {
-        is SortByAuthor -> books.sortedBy { it.author }
-        is SortByTitle -> books.sortedBy { it.title }
-        is SortByRead -> books.sortedBy { it.read }
-        is SortByFictional -> books.sortedBy { it.bookType == Fiction }
-    }
+fun getBooks(sortOrder: SortOrder) = flow {
+    emit(
+        when (sortOrder) {
+            is SortByAuthor -> books.sortedBy { it.author }
+            is SortByTitle -> books.sortedBy { it.title }
+            is SortByRead -> books.sortedBy { it.read }
+            is SortByFictional -> books.sortedBy { it.bookType == Fiction }
+        }
+    )
+}
+
+fun getBook(bookId: Int): BookVM? {
+    return books.find { it.id == bookId }
 }
 
 fun addOrUpdateBook(book: BookVM) {

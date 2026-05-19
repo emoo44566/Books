@@ -4,11 +4,13 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.emoo.books.presentation.BookVM
 import com.emoo.books.presentation.components.BookEvent
 import com.emoo.books.presentation.components.SortByAuthor
 import com.emoo.books.presentation.components.SortOrder
 import com.emoo.books.utils.getBooks
+import kotlinx.coroutines.launch
 
 class BooksListViewModel : ViewModel() {
 
@@ -19,11 +21,15 @@ class BooksListViewModel : ViewModel() {
     var sortOrder: State<SortOrder> = _sortOrder
 
     init {
-        _books.value = loadBooks(sortOrder.value)
+        loadBooks(sortOrder.value)
     }
 
-    private fun loadBooks(sortOrder: SortOrder): List<BookVM> {
-        return getBooks(sortOrder)
+    private fun loadBooks(sortOrder: SortOrder) {
+        viewModelScope.launch {
+            getBooks(sortOrder).collect { books ->
+                _books.value = books
+            }
+        }
     }
 
     fun onEvent(event: BookEvent) {
@@ -31,7 +37,7 @@ class BooksListViewModel : ViewModel() {
             is BookEvent.Delete -> deleteBook(event.book)
             is BookEvent.Order -> {
                 _sortOrder.value = event.order
-                _books.value = loadBooks(event.order)
+                loadBooks(event.order)
             }
         }
     }
