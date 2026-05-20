@@ -116,3 +116,5 @@ fun addOrUpdateBook(book: BookVM) {
 fun deleteBook(book: BookVM) {
     books.remove(book)
 }
+
+class BookException(message: String) : Throwable(message)
