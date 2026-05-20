@@ -43,7 +43,10 @@ class BooksListViewModel : ViewModel() {
     }
 
     private fun deleteBook(book: BookVM) {
-        _books.value = _books.value.filter { it != book }
+        viewModelScope.launch {
+            com.emoo.books.utils.deleteBook(book)
+            loadBooks(sortOrder.value)
+        }
     }
 
 }
