@@ -11,7 +11,11 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -19,10 +23,16 @@ import com.emoo.books.presentation.components.BookCard
 import com.emoo.books.presentation.components.BookEvent
 import com.emoo.books.presentation.components.SortOptions
 import com.emoo.books.utils.BookAddEditScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun BooksListScreen(navController: NavController, booksViewModel: BooksListViewModel) {
+
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
     Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 navController.navigate(BookAddEditScreen(-1))
@@ -54,6 +64,9 @@ fun BooksListScreen(navController: NavController, booksViewModel: BooksListViewM
                         book,
                         onDeleteClick = {
                             booksViewModel.onEvent(BookEvent.Delete(book))
+                            scope.launch {
+                                snackbarHostState.showSnackbar("Book deleted successfully")
+                            }
                         },
                         modifier = Modifier.clickable {
                             navController.navigate(BookAddEditScreen(book.id))
